@@ -1,0 +1,70 @@
+<div class="container text-center">
+    <h1>
+        Tableau des contacts
+    </h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Nom</td>
+
+                <td class="menu-icon ">...</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let c of contacts | paginate: { id: 'listing_pagination',
+                                                        itemsPerPage: 5,
+                                                        currentPage: page,
+                                                        totalItems: totalRec }">
+                <td>{{c.id}}</td>
+                <td>{{c.nom}}</td>
+                <td class="menu-icon ">
+                    <button type="button" class="btn btn-primary " (click)="openModal(template)">&#9776;</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true" (pageChange)="page = $event"></pagination-controls>
+    </div>
+
+</div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Detail Tableau</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>Prenom</td>
+                    <td>Date de Naissance</td>
+                    <td>Email</td>
+                    <td>Telephone</td>
+                    <td>Photo</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of contacts | paginate: { id: 'listing_pagination',
+                                                            itemsPerPage: 5,
+                                                            currentPage: page,
+                                                            totalItems: totalRec }">
+                    <td>{{c.prenom}}</td>
+                    <td>{{c.dateNaissance}}</td>
+                    <td>{{c.email}}</td>
+                    <td *ngIf="c.telephone">{{c.telephone}}</td>
+                    <td *ngIf="c.photo">{{c.photo}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true" (pageChange)="page = $event"></pagination-controls>
+    </div>
+</ng-template>
